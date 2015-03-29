@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.summary     = 'The enemy knows the system -- so use a strong password.'
   s.description = "Generate memorable passwords on your command line."
   s.authors     = ['Joel Wagener']
-  s.email       = '' # FIXME
+  s.email       = 'bayou.marcus@gmail.com'
   s.files       = ["lib/auguste.rb"]
   s.homepage    = 'http://rubygems.org/gems/auguste'
   s.license       = '' # FIXME
