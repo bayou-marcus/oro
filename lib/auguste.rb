@@ -76,14 +76,6 @@ __END__
 TODO
 - Fixme's
 - Add documentation notes, using rdoc/Github conventions. https://help.github.com/articles/github-flavored-markdown/ https://github.com/github/linguist
-- 1345 words in Linnaeus which are also in Latin, cull them. Ext: 34856 New: 33509 Delta: 1347
-  (35587+34853)-69095 = 1345 ; Latin.count -> 35587 ; Linnaeus.count -> 34853 ; (Latin.list | Linnaeus.list).size -> 69095
-    # new_linnaeus = Linnaeus.list.reject{|i| Latin.list.include?(i)};
-    # Linnaeus.list.size - new_linnaeus.size # 34853 - 33508 = 1345
-    # File.open('/Users/jwagener/Desktop/NewLinnaeus.yml', 'w'){|f| f.write YAML::dump(new_linnaeus.sort)}
-
-    # Diceware.list.size - new_diceware.size # 4736
-- Look for collisions in Diceware and English as well.
 - The app should likely create a ~/.auguste_dictionaries directory and install the defaults if the folder is missing, and when --install-dictionaries is called (so upgrades work).  Sigh.
 - The Password class should be self-sufficient.  No map/config = random password.
 - Consider extending Dictionary classes with modules instead of meta programming to add list parts.
