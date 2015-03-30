@@ -42,6 +42,7 @@ end
 class Options
   include Singleton
 
+  # FIXME Shorter code throughout if this responded to #map and #config, ie: Options.instance.map
   attr_accessor :settings
 
   def components(options) # FIXME Unused, but returns class parts needed by settings.  Implement instatation based on this?  Would move Punctuation and Number to files.  Other impact/changes...  Maybe load all classes, but keep @list separate from the class, and add @list via metaprogramming only if needed, by finding a matching .yml file.  This would allow for some smart part classes.  They could check and see if there is a file match, if so add list, if not get list some other way (ie: dynamic lists like pig-latin, truly random secrets) Ie: Part.descendants.each{|d| d.add_list}, and add_list checks for files, on fail does something else (for dynamic lists).  Allows treating all lists much more uniformly and better encapsulated.

@@ -111,16 +111,3 @@ Password
     SingleCharacterPart
     WordPart (DictionaryPart?)
     RandomPart (?)
-
-Options
-@map
-@options
-@actions
-
-Defaults
-@map
-@options
-
-Preferences
-@map
-@options
