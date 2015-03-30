@@ -21,12 +21,12 @@ class Settings
 end
 
   class Defaults < Settings
-    FILE = File.join(File.dirname(__FILE__), 'preference_defaults.yml')
+    FILE = File.join(File.dirname(__FILE__), 'defaults.yml')
     def settings ; @settings ||= YAML::load(File.read(FILE)) end
   end
 
   class Preferences < Settings
-    FILE = File.join(Dir.home, '.auguste_preferences')
+    FILE = File.join(Dir.home, '.auguste')
     def initialize ; reset_defaults unless FileTest.readable?(FILE) end # Create preference file if missing
 
     def settings ; @settings ||= YAML::load(File.read(FILE)) end
