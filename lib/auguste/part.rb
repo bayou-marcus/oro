@@ -19,7 +19,7 @@ end
 
   class Word < Part
     LEET = { 'a'=>['@'], 'b'=>['|3'], 'd'=>['|)'], 'e'=>['3'], 'f'=>['ph'], 'i'=>['|'], 'k'=>['|<'], 'l'=>['|_'], 'o'=>['0'], 'p'=>['|*'], 's'=>['$','5'], 'w'=>["'//"]}
-    def self.to_s ; super + ", contiguous:#{contiguous?}, absences:#{absences}" end
+    def self.to_s ; super + ", contiguous:#{contiguous?}" + (absences.empty? ? '' : ", absences:#{absences}") end
     def self.contiguous? ; absences.empty? end
     def self.absences
       length_exists = Proc.new{|length| list.select{|w| w.length == length}.empty? ? false : true}
@@ -30,7 +30,7 @@ end
     def self.get(size, config={})
       raise MatchlessLengthWordError.new("Matchless length of #{size} requested from:\n#{to_s}") if size < self.shortest or size > self.longest
 
-      get_proc, attempt = Proc.new{ get_one } , "" # FIXME The performance benefit of refactoring to use Array#reject or possibly reject! should be tested.
+      get_proc, attempt = Proc.new{ get_one } , "" # FIXME The performance benefit of refactoring to use Array#reject, or possibly reject!, should be tested.
       until attempt.length == size do
         attempt = get_proc.call
       end

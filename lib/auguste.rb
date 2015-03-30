@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative 'auguste/preference'
+require_relative 'auguste/settings'
 require_relative 'auguste/options_parser'
 require_relative 'auguste/password'
 require_relative 'auguste/assembly_line'
@@ -13,29 +13,28 @@ time = Benchmark.measure do
   begin
 
     # Create ~/.auguste_preferences if missing
-    prfs = Preference.instance
+    Preferences.instance
 
     # Parse clio
-    prfs.options = OptionsParser.parse(ARGV)
+    Options.instance.settings = OptionsParser.parse(ARGV)
 
     # TODO Update the behaviors below to use new preferences approach
     # Manage actions here (and retain single responsibility principle for OptionsParser)
-    prfs.options.actions.each_pair do |action, val|
+    Options.instance.settings.actions.each_pair do |action, val|
       case action
       when :lists
         AssemblyLine.instantiate_part_klasses(:all)
-        byebug
         AssemblyLine.lists ; exit
       when :preferences
-        puts prfs.clio_preferences ; exit
+        puts Preferences.instance.clio ; exit
       when :defaults
-        puts prfs.clio_defaults ; exit
+        puts Defaults.instance.clio ; exit
       when :set
-        prfs.preferences = prfs.options
-        puts "Saved preferences\n#{prfs.clio_preferences}"
+        Preferences.instance.settings = Options.instance.settings
+        puts "Saved preferences\n#{Preferences.instance.clio}"
       when :reset
-        prfs.reset_defaults
-        puts "Reset preferences to defaults\n#{prfs.clio_preferences}" ; exit
+        Preferences.instance.reset_defaults
+        puts "Reset preferences to defaults\n#{Preferences.instance.clio}" ; exit
       when :verbose
         $VERBOSE = true
       when :help
@@ -46,16 +45,17 @@ time = Benchmark.measure do
     end
 
     # Use preference format if none provided in clio
-    prfs.options.format = prfs.preferences.format if prfs.options.format.empty?
+    Options.instance.settings.format = Preferences.instance.settings.format if Options.instance.settings.format.empty?
 
     # Merge default config with any options given
-    prfs.options.config = prfs.defaults.config.merge(prfs.options.config)
+    # FIXME Should this be moved to the Defaults or Preferences class?
+    Options.instance.settings.config = Defaults.instance.settings.config.merge(Options.instance.settings.config)
 
     # Create part classes
-    AssemblyLine.instantiate_part_klasses(prfs.options.config[:dictionary]) # Here after OptionsParser, and not in PartKlasses, to support verbose mode which is set at run time & Part.middle
+    AssemblyLine.instantiate_part_klasses(Options.instance.settings.config[:dictionary]) # Here after OptionsParser, and not in PartKlasses, to support verbose mode which is set at run time & Part.middle
 
     # Be verbose if requested
-    warn(prfs.to_s, "Merged options: #{Preference.clioize(prfs.options)}", "Password lengths will be #{Password.length}") if $VERBOSE
+    warn(Preferences.instance.to_s, "Merged options: #{Settings.clioize(Options.instance.settings)}", "Password lengths will be: #{Password.length}") if $VERBOSE
 
     @results = AssemblyLine.new.run
 
@@ -112,6 +112,11 @@ Password
     WordPart (DictionaryPart?)
     RandomPart (?)
 
+Options
+@map
+@options
+@actions
+
 Defaults
 @map
 @options
@@ -119,4 +124,3 @@ Defaults
 Preferences
 @map
 @options
-

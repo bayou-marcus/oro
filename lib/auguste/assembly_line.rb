@@ -2,7 +2,7 @@ require 'yaml'
 require 'json'
 require 'benchmark'
 require_relative 'error'
-require_relative 'preference'
+require_relative 'settings'
 
 class AssemblyLine
 
@@ -38,28 +38,26 @@ class AssemblyLine
   end
 
 	def run
-    prfs = Preference.instance
+    raise NoMatchingListError.new("No matching dictionary for '#{Options.instance.settings.config[:dictionary]}'") unless AssemblyLine.dictionary_files(:all).has_key?(Options.instance.settings.config[:dictionary])
 
-    raise NoMatchingListError.new("No matching dictionary for '#{prfs.options.config[:dictionary]}'") unless AssemblyLine.dictionary_files(:all).has_key?(prfs.options.config[:dictionary])
-
-    dict_klass = self.class.const_get(prfs.options.config[:dictionary])
-    raise ListIsNonContiguousError.new("Dictionary #{prfs.options.config[:dictionary]} is noncontiguous and requires at least one entry for each range member\n#{dict_klass.to_s}") unless dict_klass.contiguous?
+    dict_klass = self.class.const_get(Options.instance.settings.config[:dictionary])
+    raise ListIsNonContiguousError.new("Dictionary #{Options.instance.settings.config[:dictionary]} is noncontiguous and requires at least one entry for each range member\n#{dict_klass.to_s}") unless dict_klass.contiguous?
 
     passwords = []
     time = Benchmark.measure do
-      (1..prfs.options.config[:iterations]).each{ passwords << Password.new.pw }
+      (1..Options.instance.settings.config[:iterations]).each{ passwords << Password.new.pw }
     end
 
-    warn("Time to generate #{prfs.options.config[:iterations]} passwords: #{time.real}, #{time.real / prfs.options.config[:iterations]} per password") if $VERBOSE
+    warn("Time to generate #{Options.instance.settings.config[:iterations]} passwords: #{time.real}, #{time.real / Options.instance.settings.config[:iterations]} per password") if $VERBOSE
 
     # We are done
-    case prfs.options.config[:format]
+    case Options.instance.settings.config[:format]
     when 'json'
       passwords.to_json
     when 'yaml', 'yml'
       passwords.to_yaml
     when 'string'
-      passwords.join(prfs.options.config[:separator]).strip
+      passwords.join(Options.instance.settings.config[:separator]).strip
     end
 	end
 
