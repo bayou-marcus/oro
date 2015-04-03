@@ -6,7 +6,7 @@ class OptionsParser
 
   def self.parse(argv) # Ie: an ARGV-style array of the clio
 
-    options = OpenStruct.new(:format => [], :config => {}, :actions => {})
+    options = OpenStruct.new(:plan => [], :config => {}, :actions => {})
 
     clio_parser = OptionParser.new do |clio_parser_opts|
 
@@ -19,15 +19,15 @@ class OptionsParser
       # Parts
       clio_parser_opts.separator 'Part options'
       clio_parser_opts.on('-w[OPTIONAL]', '--word[=OPTIONAL]', Integer) do |val|
-        options.format.push(['Word', val])
+        options.plan.push(['Word', val])
       end
 
       clio_parser_opts.on('-n[OPTIONAL]', '--number[=OPTIONAL]', Integer) do |val|
-        options.format.push(['Number', val])
+        options.plan.push(['Number', val])
       end
 
       clio_parser_opts.on('-p[OPTIONAL]', '--punctuation[=OPTIONAL]', Integer) do |val|
-        options.format.push(['Punctuation', val])
+        options.plan.push(['Punctuation', val])
       end
 
       # Config
@@ -54,7 +54,7 @@ class OptionsParser
         options.config[:l33t] = val
       end
 
-      clio_parser_opts.on('-s', '--[no-]shuffle', 'Randomize format parts') do |val|
+      clio_parser_opts.on('-s', '--[no-]shuffle', 'Randomize map parts') do |val|
         options.config[:shuffle] = val
       end
 

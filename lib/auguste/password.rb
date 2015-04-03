@@ -5,35 +5,43 @@ require_relative 'settings'
 class Password
   attr_reader :pw
 
+  def self.components(options) # FIXME Unused, but returns class parts needed by settings.  Implement instatation based on this?  Would move Punctuation and Number to files.  Other impact/changes...  Maybe load all classes, but keep @list separate from the class, and add @list via metaprogramming only if needed, by finding a matching .yml file.  This would allow for some smart part classes.  They could check and see if there is a file match, if so add list, if not get list some other way (ie: dynamic lists like pig-latin, truly random secrets) Ie: Part.descendants.each{|d| d.add_list}, and add_list checks for files, on fail does something else (for dynamic lists).  Allows treating all lists much more uniformly and better encapsulated.
+    parts = []
+    options.plan.each do |part|
+      part[0] == 'Word' ? parts << options.config[:dictionary] : parts << part[0]
+    end
+    parts.uniq
+  end
+
   def self.length
     length = 0
-    Options.instance.settings.format.each do |part|
+    Options.instance.plan.each do |part|
       if part[0] == 'Word'
-        length += part[1].nil? ? Object.const_get(Options.instance.settings.config[:dictionary]).middle : part[1] # FIXME Dry up the frequent Object.const_get calls? Encapsulation seems dubious.
+        length += part[1].nil? ? Object.const_get(Options.instance.config[:dictionary]).middle : part[1] # FIXME Dry up the frequent Object.const_get calls? Encapsulation seems dubious.
       else
         length += part[1].nil? ? Object.const_get(part[0]).middle : part[1]
       end
     end
-    Options.instance.settings.config.has_key?(:l33t) && Options.instance.settings.config[:l33t] == true ? "#{length}+" : length.to_s # Precision bets are off with l33t; && likely uneeded
+    Options.instance.config.has_key?(:l33t) && Options.instance.config[:l33t] == true ? "#{length}+" : length.to_s # Precision bets are off with l33t; && likely uneeded
   end
 
   def initialize
     current_password = []
 
-    for format_part in Options.instance.settings.format do
-      case format_part[0]
+    for map_part in Options.instance.plan do
+      case map_part[0]
       when 'Word'
-        format_part[0] = Options.instance.settings.config[:dictionary]
-        format_part[1] = Object.const_get(Options.instance.settings.config[:dictionary]).middle if format_part[1].nil?
+        map_part[0] = Options.instance.config[:dictionary]
+        map_part[1] = Object.const_get(Options.instance.config[:dictionary]).middle if map_part[1].nil?
       when 'Number', 'Punctuation'
-        format_part[1] = 1 if format_part[1].nil?
+        map_part[1] = 1 if map_part[1].nil?
       end
 
-      part_klass = self.class.const_get(format_part[0]) # The part descriptor from auguste options
-      current_password << part_klass.get(format_part[1], Options.instance.settings.config) # Passing config, Parts don't currently rely on the Preference singleton
+      part_klass = self.class.const_get(map_part[0]) # The part descriptor from auguste options
+      current_password << part_klass.get(map_part[1], Options.instance.config) # Passing config, Parts don't currently rely on the Preference singleton
     end
 
-    current_password.shuffle! if Options.instance.settings.config[:shuffle]
+    current_password.shuffle! if Options.instance.config[:shuffle]
     @pw = current_password.join
   end
 end

@@ -1,6 +1,6 @@
 --- !ruby/object:OpenStruct
 table:
-  :format:
+  :plan:
   - - Word
     - 5
   - - Punctuation

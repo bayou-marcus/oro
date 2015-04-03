@@ -15,12 +15,11 @@ time = Benchmark.measure do
     # Create ~/.auguste_preferences if missing
     Preferences.instance
 
-    # Parse clio
-    Options.instance.settings = OptionsParser.parse(ARGV)
+    # Parse clio, set options
+    Options.instance.set(ARGV)
 
-    # TODO Update the behaviors below to use new preferences approach
     # Manage actions here (and retain single responsibility principle for OptionsParser)
-    Options.instance.settings.actions.each_pair do |action, val|
+    Options.instance.actions.each_pair do |action, val|
       case action
       when :lists
         AssemblyLine.instantiate_part_klasses(:all)
@@ -44,22 +43,22 @@ time = Benchmark.measure do
       end
     end
 
-    # Use preference format if none provided in clio
-    Options.instance.settings.format = Preferences.instance.settings.format if Options.instance.settings.format.empty?
+    # Use preference map if none provided in clio
+    Options.instance.plan = Preferences.instance.plan if Options.instance.plan.empty?
 
     # Merge default config with any options given
     # FIXME Should this be moved to the Defaults or Preferences class?
-    Options.instance.settings.config = Defaults.instance.settings.config.merge(Options.instance.settings.config)
+    Options.instance.config = Defaults.instance.config.merge(Options.instance.config)
 
     # Create part classes
-    AssemblyLine.instantiate_part_klasses(Options.instance.settings.config[:dictionary]) # Here after OptionsParser, and not in PartKlasses, to support verbose mode which is set at run time & Part.middle
+    AssemblyLine.instantiate_part_klasses(Options.instance.config[:dictionary]) # Here after OptionsParser, and not in PartKlasses, to support verbose mode which is set at run time & Part.middle
 
     # Be verbose if requested
-    warn(Preferences.instance.to_s, "Merged options: #{Settings.clioize(Options.instance.settings)}", "Password lengths will be: #{Password.length}") if $VERBOSE
+    warn(Preferences.instance.to_s, "Merged options: #{ClioHelper.clioize(Options.instance.settings)}", "Password lengths will be: #{Password.length}") if $VERBOSE
 
     @results = AssemblyLine.new.run
 
-  rescue OptionParser::InvalidOption, OptionParser::MissingArgument, OptionParser::InvalidArgument => e
+  rescue OptionParser::InvalidOption, OptionParser::AmbiguousOption, OptionParser::MissingArgument, OptionParser::InvalidArgument => e
     puts "Error: #{e.message}"
   rescue NoMatchingListError, ListIsNonContiguousError, MatchlessLengthWordError => e
     puts e.message
@@ -75,6 +74,7 @@ __END__
 
 TODO
 - Fixme's
+- Review and possibly integrate this (word list limitations): https://github.com/bdmac/strong_password
 - Add documentation notes, using rdoc/Github conventions. https://help.github.com/articles/github-flavored-markdown/ https://github.com/github/linguist
 - The app should likely create a ~/.auguste_dictionaries directory and install the defaults if the folder is missing, and when --install-dictionaries is called (so upgrades work).  Sigh.
 - The Password class should be self-sufficient.  No map/config = random password.
@@ -92,6 +92,7 @@ TODO
 - Finish tests
 - Test on Windows
 - Build as gem
+- Add gem to RubyGems.org: https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/
 - Add gem to a Github account
 - Hints about more alphabets can be found here:
   - http://linguistics.stackexchange.com/questions/6173/is-english-the-only-language-except-classical-latin-cyrillic-symbol-languages
