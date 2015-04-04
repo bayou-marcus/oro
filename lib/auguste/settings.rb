@@ -10,11 +10,11 @@ module ClioHelper
     options.config.each{|p| clio << "--#{p[0].to_s.gsub('_','-')}=#{p[1].to_s.gsub(/\n/, '"\n"')}"} # FIXME This needs to support \t and \r, at least
     clio.join(' ')
   end
-  def clio ; ClioHelper.clioize(settings) end # FIXME I spent hours, the location of this is dubious.
+  def clio ; ClioHelper.clioize(settings) end
   def to_s ; "#{self.class.name}: #{self.clio} (#{self.class::FILE})" end # FIXME This should include Defaults somehow.
 end
 
-module SettingsAccessors
+module OptionsAccessors
   def plan ; settings.plan end
   def plan=(val) ; @settings.plan = val end
   def config ; settings.config end
@@ -24,7 +24,7 @@ module SettingsAccessors
 end
 
 class Defaults
-  include ClioHelper, SettingsAccessors, Singleton
+  include ClioHelper, OptionsAccessors, Singleton
   FILE = File.join(File.dirname(__FILE__), 'defaults.yml')
 
   def initialize ; settings end
@@ -32,7 +32,7 @@ class Defaults
 end
 
 class Preferences
-  include ClioHelper, SettingsAccessors, Singleton
+  include ClioHelper, OptionsAccessors, Singleton
   FILE = File.join(Dir.home, '.auguste')
 
   def initialize
@@ -51,8 +51,8 @@ class Preferences
 end
 
 # FIXME One of the other singleton approaches here can mean less code: https://practicingruby.com/articles/ruby-and-the-singleton-pattern-dont-get-along
-class Options # FIXME Shorter code throughout if this responded to #map and #config, ie: Options.instance.map
-  include SettingsAccessors, Singleton
+class Options
+  include OptionsAccessors, Singleton
   attr_accessor :settings
   def set(clio) ; @settings = OptionsParser.parse(clio) end
 end
