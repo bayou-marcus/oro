@@ -73,7 +73,10 @@ puts @results
 __END__
 
 TODO
+- Next: Instantiate classes with the Components class, now moved to the Password class.  See related note. 
 - Fixme's
+- Using --set without providing plan parts creates strange behavior, saving an empty map which loads no parts on subsequent runs.
+- Using -e'\r' only yields one password (?).
 - Review and possibly integrate this (word list limitations): https://github.com/bdmac/strong_password
 - Add documentation notes, using rdoc/Github conventions. https://help.github.com/articles/github-flavored-markdown/ https://github.com/github/linguist
 - The app should likely create a ~/.auguste_dictionaries directory and install the defaults if the folder is missing, and when --install-dictionaries is called (so upgrades work).  Sigh.
