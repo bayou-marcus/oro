@@ -1,10 +1,9 @@
 #!/usr/bin/env ruby
 
-require_relative 'auguste/settings'
-require_relative 'auguste/options_parser'
-require_relative 'auguste/password'
-require_relative 'auguste/assembly_line'
+require 'benchmark'
 require 'byebug' # FIXME rm
+require_relative 'auguste/settings'
+require_relative 'auguste/password'
 
 # LET'S make passwords
 

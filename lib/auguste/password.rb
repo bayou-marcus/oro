@@ -2,6 +2,7 @@ require_relative 'parts'
 require_relative 'helpers'
 require_relative 'settings'
 require_relative 'errors'
+require_relative 'options_parser'
 
 # FIXME This should be a functional and wholly self-contained class, where when you create an instance of it with no params, it gives you back a password (maybe based on random parts and lengths).  If you pass options, then it gives you one like you requested. That would mean all parts namespaced here. Once the instance variable(s) that save the plan are set, calling .pw will issue new passwords based on that plan.
 class Password
