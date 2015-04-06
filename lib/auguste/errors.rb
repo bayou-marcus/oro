@@ -3,6 +3,8 @@ class AugusteError < Exception
   def message ; "Error: #{@msg}" end
 end
 
+class PartInstantiationError < AugusteError ; end
+
 class MatchlessLengthWordError < AugusteError ; end
 
 class NoMatchingListError < AugusteError ; end

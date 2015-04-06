@@ -1,4 +1,6 @@
 class Part
+  def self.list_location ; @list_location end
+  def self.list_location=(location) ; @list_location = location end
   def self.count ; list.size end # list is memoized and via class method added by AssemblyLine#instantiate
   def self.shortest ; @shortest ||= list.empty? ? 0 : list.min{|a,b| a.length <=> b.length}.length end
   def self.longest ; @longest ||= list.empty? ? 0 : list.max{|a,b| a.length <=> b.length}.length end

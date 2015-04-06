@@ -2,42 +2,26 @@ require 'singleton'
 require 'yaml'
 require 'ostruct'
 require_relative 'options_parser'
+require_relative 'helpers'
 
-module ClioHelper
-  def self.clioize(options)
-    clio = []
-    options.plan.each{|p| clio << "-#{p[0][0].downcase}#{p[1]}"}
-    options.config.each{|p| clio << "--#{p[0].to_s.gsub('_','-')}=#{p[1].to_s.gsub(/\n/, '"\n"')}"} # FIXME This needs to support \t and \r, at least
-    clio.join(' ')
-  end
-  def clio ; ClioHelper.clioize(settings) end
-  def to_s ; "#{self.class.name}: #{self.clio} (#{self.class::FILE})" end # FIXME This should include Defaults somehow.
-end
 
-module OptionsAccessors
-  def plan ; settings.plan end
-  def plan=(val) ; @settings.plan = val end
-  def config ; settings.config end
-  def config=(val) ; @settings.config = val end
-  def actions ; settings.actions end
-  def actions=(val) ; @settings.actions = val end
-end
-
+# FIXME One of the other singleton approaches here can mean less code: https://practicingruby.com/articles/ruby-and-the-singleton-pattern-dont-get-along
 class Defaults
-  include ClioHelper, OptionsAccessors, Singleton
+  include ClioHelper, OptionsAccessors, SettingsInspector, Singleton
   FILE = File.join(File.dirname(__FILE__), 'defaults.yml')
 
   def initialize ; settings end
   def settings ; @settings ||= YAML::load(File.read(FILE)) end
 end
 
+
 class Preferences
-  include ClioHelper, OptionsAccessors, Singleton
+  include ClioHelper, OptionsAccessors, SettingsInspector, Singleton
   FILE = File.join(Dir.home, '.auguste')
 
   def initialize
-    settings
     reset_defaults unless FileTest.readable?(FILE) # Create preference file if missing
+    settings
   end
 
   def settings ; @settings ||= YAML::load(File.read(FILE)) end
@@ -48,11 +32,4 @@ class Preferences
   end
 
   def reset_defaults ; self.settings = Defaults.instance.settings end
-end
-
-# FIXME One of the other singleton approaches here can mean less code: https://practicingruby.com/articles/ruby-and-the-singleton-pattern-dont-get-along
-class Options
-  include OptionsAccessors, Singleton
-  attr_accessor :settings
-  def set(clio) ; @settings = OptionsParser.parse(clio) end
 end
