@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
 require 'benchmark'
+require 'yaml'
+require 'json'
 require 'byebug' # FIXME rm
 require_relative 'auguste/settings'
 require_relative 'auguste/password'
@@ -12,12 +14,12 @@ time = Benchmark.measure do
   begin
 
     # Create ~/.auguste_preferences if missing
-    Preferences.instance # FIXME Using a no-magic module singleton via http://tinyurl.com/lnh74s4 would mean this would not be needed
+    Preferences.instance
 
-    # Set options, parse clio
+    # Set settings, parse clio
     password = Password.new(ARGV)
 
-    # Manage actions here (and retain single responsibility principle for OptionsParser)
+    # Manage actions here (and retain single responsibility principle for SettingsParser)
     password.actions.each_pair do |action, val|
       case action
       when :lists
@@ -26,7 +28,7 @@ time = Benchmark.measure do
         puts Preferences.instance.clio ; exit
       when :defaults
         puts Defaults.instance.clio ; exit
-      when :set # FIXME START HERE!!!
+      when :set
         Preferences.instance.settings = password.virgin_settings
         puts "Saved preferences\n#{Preferences.instance.clio}"
       when :reset
@@ -42,7 +44,7 @@ time = Benchmark.measure do
     end
 
     # Be verbose if requested
-    warn(Preferences.instance.to_s, "Merged options: #{ClioHelper.clioize(password.settings)}", "Password lengths will be: #{password.length}") if $VERBOSE
+    warn(Preferences.instance.to_s, "Merged settings: #{ClioHelper.clioize(password.settings)}", "Password lengths will be: #{password.length}") if $VERBOSE
 
     @passwords = []
     time_passwords = Benchmark.measure do
@@ -78,21 +80,18 @@ __END__
 TODO
 Issues
 - Fixme's
-- Using -e'\r' only yields one password (?).
-- Using --set without providing plan parts creates strange behavior, saving an empty map which loads no parts on subsequent runs.
-- The verbose merged options "--separator=" value is mssing \t when -e"\t" is given (which does work)
 - \t is not set when used as a separator
+- Using -e'\r' only yields one password (?)
+- The verbose merged options "--separator=" value is mssing \t when -e"\t" is given (which does work)
 
 Ideas
-- Why are you using .settings in the Settings classes, and .options elsewhere?  Change to .settings everywhere?
+- Would it not make sense that an instance of Password had the 8 settings.config and 1 settings.plan options as instance variables?  Ie: The Object Way.
+  And, possibly that defaults and preferences either mixed this approach in or were themselves instances or subclasses of Password.  (Very interesting.)
 - The app should likely create a ~/.auguste_dictionaries directory and install the defaults if the folder is missing, and when --install-dictionaries is called (so upgrades work).  Sigh.
-- The Password class should be self-sufficient.  No map/config = random password.
 - Review and possibly integrate this (word list limitations): https://github.com/bdmac/strong_password
-- Add a clipboard gem and switch?
 - Consider creating a SecureRandom part option to silence the post-publish defsec encryption trolls.
 - Hints about more alphabets can be found here:
   - http://linguistics.stackexchange.com/questions/6173/is-english-the-only-language-except-classical-latin-cyrillic-symbol-languages
-- The new approach to instantiating Part/list classes could help make them smarter.  Getting lists some other way (ie: dynamic lists like pig-latin, truly random secrets)
 
 Steps
 - Add documentation notes, using rdoc/Github conventions. https://help.github.com/articles/github-flavored-markdown/ https://github.com/github/linguist

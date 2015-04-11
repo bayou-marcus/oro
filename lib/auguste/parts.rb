@@ -8,7 +8,13 @@ class Part
   def self.distinct? ; list.size == list.uniq.size ? true : false end
   def self.get_one ; list.sample end  
   def self.descendants ; ObjectSpace.each_object(Class).select{ |klass| klass < self } end
-  def self.to_s ; "List #{self.name} > count:#{count}, shortest:#{shortest}, longest:#{longest}, middle:#{middle}, distinct:#{distinct?}, get one:'#{get_one}'" end
+  def self.contiguous? ; absences.empty? end
+  def self.absences
+    length_exists = Proc.new{|length| list.select{|w| w.length == length}.empty? ? false : true}
+    lengths = [] ; (self.shortest..self.longest).each{|len| exists = length_exists.call(len) ; lengths << len if not exists}
+    lengths
+  end
+  def self.to_s ; "List #{self.name} > count:#{count}, shortest:#{shortest}, longest:#{longest}, middle:#{middle}, distinct:#{distinct?}, get one:'#{get_one}', contiguous:#{contiguous?}" + (absences.empty? ? '' : ", absences:#{absences}") end
 end
 
   class SingleCharacterPart < Part
@@ -21,13 +27,6 @@ end
 
   class Word < Part
     LEET = { 'a'=>['@'], 'b'=>['|3'], 'd'=>['|)'], 'e'=>['3'], 'f'=>['ph'], 'i'=>['|'], 'k'=>['|<'], 'l'=>['|_'], 'o'=>['0'], 'p'=>['|*'], 's'=>['$','5'], 'w'=>["'//"]}
-    def self.to_s ; super + ", contiguous:#{contiguous?}" + (absences.empty? ? '' : ", absences:#{absences}") end
-    def self.contiguous? ; absences.empty? end
-    def self.absences
-      length_exists = Proc.new{|length| list.select{|w| w.length == length}.empty? ? false : true}
-      lengths = [] ; (self.shortest..self.longest).each{|len| exists = length_exists.call(len) ; lengths << len if not exists}
-      lengths
-    end
 
     def self.get(size, config={})
       raise MatchlessLengthWordError.new("Matchless length of #{size} requested from:\n#{to_s}") if size < self.shortest or size > self.longest

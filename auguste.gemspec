@@ -8,5 +8,5 @@ Gem::Specification.new do |s|
   s.email       = 'bayou.marcus@gmail.com'
   s.files       = ["lib/auguste.rb"]
   s.homepage    = 'http://rubygems.org/gems/auguste'
-  s.license       = '' # FIXME
+  s.license     = 'The MIT License (MIT) http://opensource.org/licenses/mit-license.php'
 end

@@ -15,8 +15,8 @@ module Helpers
   end
 end
 
-# Mixed in to the singleton Defaults and Prefernce classes, and the Password class
-module OptionsAccessors
+# Mixed in to the singleton Defaults and Preference classes, and the Password class
+module SettingsAccessors
   def plan ; settings.plan end
   def plan=(val) ; @settings.plan = val end
   def config ; settings.config end
@@ -27,10 +27,10 @@ end
 
 module ClioHelper
   # FIXME This *helper* method requires knowledge of the Password class; move to Password class?
-  def self.clioize(options)
+  def self.clioize(settings)
     clio = []
-    options.plan.each{|part| Password.installed_word_parts.include?(part[0]) ? clio << "-w#{part[1]}" : clio << "-#{part[0][0].downcase}#{part[1]}"}
-    options.config.each{|part| clio << "--#{part[0].to_s.gsub('_','-')}=#{part[1].to_s.gsub(/\n/, '"\n"')}"} # FIXME Must at least support \t , \r
+    settings.plan.each{|part| Password.installed_word_parts.include?(part[0]) ? clio << "-w#{part[1]}" : clio << "-#{part[0][0].downcase}#{part[1]}"}
+    settings.config.each{|part| clio << "--#{part[0].to_s.gsub('_','-')}=#{part[1].to_s.gsub(/\n/, '"\n"')}"} # FIXME Must at least support \t , \r
     clio.join(' ')
   end
   def clio ; ClioHelper.clioize(settings) end

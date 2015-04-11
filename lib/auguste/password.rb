@@ -2,13 +2,13 @@ require_relative 'parts'
 require_relative 'helpers'
 require_relative 'settings'
 require_relative 'errors'
-require_relative 'options_parser'
+require_relative 'settings_parser'
 
-# FIXME This should be a functional and wholly self-contained class, where when you create an instance of it with no params, it gives you back a password (maybe based on random parts and lengths).  If you pass options, then it gives you one like you requested. That would mean all parts namespaced here. Once the instance variable(s) that save the plan are set, calling .pw will issue new passwords based on that plan.
+# FIXME This should be a functional and wholly self-contained class, where when you create an instance of it with no params, it gives you back a password (maybe based on random parts and lengths).  If you pass settings, then it gives you one like you requested. That would mean all parts namespaced here. Once the instance variable(s) that save the plan are set, calling .pw will issue new passwords based on that plan.
 class Password
 
   using Helpers
-  include OptionsAccessors, Helpers
+  include SettingsAccessors, Helpers
   attr_accessor :settings
   attr_reader :virgin_settings
 
@@ -53,30 +53,30 @@ class Password
 
   # Instance methods
 
-  def initialize(clio=nil)
+  def initialize(clio='')
     # Parse clio
-    @settings = OptionsParser.parse(clio)
+    @settings = SettingsParser.parse(clio)
 
     # Save virgin parsed settings
     @virgin_settings = @settings.dup
 
-    # Use saved preference plan if no plan provided in clio
-    @settings.plan = Preferences.instance.plan if @settings.plan.empty?
+    # Use saved preferences plan, then defaults plan, if no plan provided in clio
+    @settings.plan = (Preferences.instance.plan.empty? ? Defaults.instance.plan : Preferences.instance.plan) if @settings.plan.empty?
 
-    # Merge default config with any options given
-    @settings.config = Defaults.instance.config.merge(@settings.config)
+    # Settings merged with Preferences, that merged with Defaults
+    @settings.config = Defaults.instance.config.merge(Preferences.instance.config.merge(@settings.config))
 
-    # Assign correct dictionary-specified class to Word parts, removing ambiguous 'Word' parts left by OptionsParser
+    # Assign correct dictionary-specified class to Word parts, removing ambiguous 'Word' parts left by SettingsParser
     @settings.plan.each{|part| part[0] = @settings.config[:dictionary] if part[0] == 'Word'}
 
     # Check for NoMatchingListError
-    raise NoMatchingListError.new("No matching dictionary for '#{password.config[:dictionary]}'") unless Password.installed_word_parts.include?(@settings.config[:dictionary])
+    raise NoMatchingListError.new("No matching dictionary for '#{@settings.config[:dictionary]}'") unless Password.installed_word_parts.include?(@settings.config[:dictionary])
 
-    # Add lists for required part classes only
-    Password.components_for(@settings).each{|klass| Password.listify_for(klass)}
-
-    # Check for ListIsNonContiguousError
-    raise ListIsNonContiguousError.new("Dictionary #{@settings.config[:dictionary]} is noncontiguous and requires at least one entry for each range member\n#{dict_klass.to_s}") unless Object.const_get(@settings.config[:dictionary]).contiguous?
+    # Add lists for required part classes only, check for non-contiguous lists
+    Password.components_for(@settings).each do |klass|
+      Password.listify_for(klass)
+      raise ListIsNonContiguousError.new("Dictionary #{klass.name} is noncontiguous and requires at least one entry for each range member\n#{klass.to_s}") unless klass.contiguous?
+    end
   end
 
   def length
@@ -89,16 +89,9 @@ class Password
     current_password = []
 
     for plan_part in @settings.plan do
-      case plan_part[0]
-      when 'Word'
-        plan_part[0] = @settings.config[:dictionary]
-        plan_part[1] = Object.const_get(@settings.config[:dictionary]).middle if plan_part[1].nil?
-      when 'Number', 'Punctuation'
-        plan_part[1] = 1 if plan_part[1].nil?
-      end
-
-      part_klass = self.class.const_get(plan_part[0]) # The part descriptor from auguste options
-      current_password << part_klass.get(plan_part[1], @settings.config) # Passing config, Parts don't currently rely on the Preference singleton
+      part_klass = self.class.const_get(plan_part[0]) # The part descriptor from auguste settings
+      plan_part[1] = part_klass.middle if plan_part[1].nil? # Potentially optimize: this causes full list sorts for shortest & longest
+      current_password << part_klass.get(plan_part[1], @settings.config) # Passing config, Parts don't currently rely on the Preferences singleton
     end
 
     current_password.shuffle! if @settings.config[:shuffle]
