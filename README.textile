@@ -1,0 +1,19 @@
+h1. Auguste
+
+"The enemy knows the system", "Claude Shannon":http://en.wikipedia.org/wiki/Claude_Shannon / "Auguste Kerckhoffs":http://en.wikipedia.org/wiki/Auguste_Kerckhoffs
+
+A flexible command line tool for generating memorable passwords.
+
+h2. Custom Lists
+
+You can add your own lists, formatted as YAML arrays, in ~/.auguste/lists/<SuperclassDirectory>/<your-last>.yml.
+
+Here are some words to quote so Ruby doesn't have issues processing them: 'false', 'no', 'nil', 'null', 'off', 'on', 'true', 'yes'.  Some punctuation characters may need quoting as well (ex: '\').
+
+h2. License
+
+http://opensource.org/licenses/mit-license.php
+
+
+
+Markdown: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet

@@ -30,6 +30,14 @@ class SettingsParser
         settings.plan.push(['Punctuation', val])
       end
 
+      clio_parser_config.on('-e[OPTIONAL]', '--emoticon[=OPTIONAL]', Integer) do |val|
+        settings.plan.push(['Emoticon', val])
+      end
+
+      clio_parser_config.on('-b[OPTIONAL]', '--braille[=OPTIONAL]', Integer) do |val|
+        settings.plan.push(['Braille', val])
+      end
+
       # Config
       clio_parser_config.separator ''
       clio_parser_config.separator 'Config settings'
@@ -62,7 +70,7 @@ class SettingsParser
         settings.config[:format] = val
       end
 
-      clio_parser_config.on('-e', '--separator[=OPTIONAL]', 'Separator characters') do |val|
+      clio_parser_config.on('-t', '--separator[=OPTIONAL]', 'Separator characters') do |val|
         settings.config[:separator] = eval("val=\"#{val}\"") # FIXME The horror, but how else to take \n as an option and retain it's control nature?  The eval should be removed.
       end
 

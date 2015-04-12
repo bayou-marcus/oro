@@ -1,7 +1,7 @@
 require 'minitest/autorun'
-require 'yaml'
-require_relative '../lib/auguste/preference' # FIXME Should this even be needed?  See Rakefile for the fail.
-require_relative '../lib/auguste/options_parser' # FIXME Should this even be needed?  See Rakefile for the fail.
+# require 'yaml'
+# require_relative '../lib/auguste/settings' # FIXME Should this even be needed?  See Rakefile for the fail.
+# require_relative '../lib/auguste/settings_parser' # FIXME Should this even be needed?  See Rakefile for the fail.
 
 class TestPreference < Minitest::Test
 

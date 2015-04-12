@@ -4,8 +4,6 @@ require 'ostruct'
 require_relative 'settings_parser'
 require_relative 'helpers'
 
-
-# FIXME One of the other singleton approaches here can mean less code: https://practicingruby.com/articles/ruby-and-the-singleton-pattern-dont-get-along
 class Defaults
   include ClioHelper, SettingsAccessors, SettingsInspector, Singleton
   FILE = File.join(File.dirname(__FILE__), 'defaults.yml')

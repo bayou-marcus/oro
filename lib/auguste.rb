@@ -56,7 +56,7 @@ time = Benchmark.measure do
     # We are done
     case password.config[:format]
     when 'json'
-      @passwords = @passwords.to_json # FIXME Don't love the @password-fest, clunky.
+      @passwords = @passwords.to_json
     when 'yaml', 'yml'
       @passwords = @passwords.to_yaml
     when 'string'
@@ -80,16 +80,16 @@ __END__
 TODO
 Issues
 - Fixme's
-- \t is not set when used as a separator
-- Using -e'\r' only yields one password (?)
-- The verbose merged options "--separator=" value is mssing \t when -e"\t" is given (which does work)
+- Using -t'\r' only yields one password (?)
+- Switch all Emoticons to the unicode number, see the emoticon.yml file for 1 working example
 
 Ideas
-- Would it not make sense that an instance of Password had the 8 settings.config and 1 settings.plan options as instance variables?  Ie: The Object Way.
-  And, possibly that defaults and preferences either mixed this approach in or were themselves instances or subclasses of Password.  (Very interesting.)
 - The app should likely create a ~/.auguste_dictionaries directory and install the defaults if the folder is missing, and when --install-dictionaries is called (so upgrades work).  Sigh.
+- The emoticon and braille parts need some thinking re: inclusion
 - Review and possibly integrate this (word list limitations): https://github.com/bdmac/strong_password
 - Consider creating a SecureRandom part option to silence the post-publish defsec encryption trolls.
+- Would it not make sense that an instance of Password had the 8 settings.config and 1 settings.plan options as instance variables?  Ie: The Object Way.
+  And, possibly that defaults and preferences either mixed this approach in or were themselves instances or subclasses of Password.  (Very interesting.)
 - Hints about more alphabets can be found here:
   - http://linguistics.stackexchange.com/questions/6173/is-english-the-only-language-except-classical-latin-cyrillic-symbol-languages
 
@@ -100,7 +100,3 @@ Steps
 - Build as gem
 - Add gem to RubyGems.org: https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/
 - Add gem to a Github account
-
-DOC
-Dictionary words that will cause issues with Ruby: false, no, nil, null, off, on, true, yes
-Punctuation that causes issues and which I excluded rather than attempting to fix: \ "
