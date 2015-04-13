@@ -81,7 +81,11 @@ TODO
 Issues
 - Fixme's
 - Using -t'\r' only yields one password (?)
-- Switch all Emoticons to the unicode number, see the emoticon.yml file for 1 working example
+- Since #get is the only differening method, all lists can be treated as Part instances.  These changes would be needed:
+  - A memoized #single_part_list? method would be needed to determine if the list was single part style.
+  - The #get method would check #single_part_list? and dispatch to #get_for_single_part or # get_for_word_part
+  With these in place AND some crafty changes to SettingsParser allowing clio switches based on installed dictionaries, simply dropping in a
+  new dictionary would allow it to be used with no changes.
 
 Ideas
 - The app should likely create a ~/.auguste_dictionaries directory and install the defaults if the folder is missing, and when --install-dictionaries is called (so upgrades work).  Sigh.
