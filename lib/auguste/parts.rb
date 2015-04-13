@@ -1,6 +1,11 @@
 class Part
   def self.list_location ; @list_location end
   def self.list_location=(location) ; @list_location = location end
+  def self.listify
+    list = YAML.load_file(@list_location)
+    self.instance_exec(list){|l| define_singleton_method('list'){ @list ||= l }} # instance_exec (vs. instance_eval) to pass params,  define_singleton_method to add the class method
+    self.respond_to?(:list) ? true : false
+  end
   def self.count ; list.size end # list is memoized and via class method added by AssemblyLine#instantiate
   def self.shortest ; @shortest ||= list.empty? ? 0 : list.min{|a,b| a.length <=> b.length}.length end
   def self.longest ; @longest ||= list.empty? ? 0 : list.max{|a,b| a.length <=> b.length}.length end
@@ -58,3 +63,18 @@ end
     end
 
   end
+
+# Initialize list-less parts classes from all installed <list>.yml files, * at load time *
+begin
+require_relative 'helpers'
+  using Helpers
+
+  Dir.glob(File.join(File.dirname(__FILE__), 'lists', '**', '*.yml')) do |list|
+    klass_name = File.basename(list, '.yml').camelize
+    superklass_name = File.dirname(list).split(File::SEPARATOR).pop
+    instantiated = Object.const_set(klass_name, Class.new(Object.const_get(superklass_name)))
+    instantiated.list_location = list
+  end
+rescue PartInstantiationError => e
+  puts e.message
+end # End part class initilization

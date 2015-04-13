@@ -6,48 +6,21 @@ require_relative 'settings_parser'
 
 class Password
 
-  using Helpers
-  include SettingsAccessors, Helpers
+  include SettingsAccessors
   attr_accessor :settings
   attr_reader :virgin_settings
-
-
-  # Pseudo-"Password.initialize" which initializes list-less parts classes from all installed <list>.yml files, * at load time *
-  begin
-    Dir.glob(File.join(File.dirname(__FILE__), 'lists', '**', '*.yml')) do |list|
-      klass_name = File.basename(list, '.yml').camelize
-      superklass_name = File.dirname(list).split(File::SEPARATOR).pop
-      instantiated = Object.const_set(klass_name, Class.new(Object.const_get(superklass_name)))
-      instantiated.list_location = list
-    end
-  rescue PartInstantiationError => e
-    puts e.message
-  end # End part class initilization
-
 
   # Class methods
 
   # Singleton helper returning classes required by password 
-  def self.components_for(settings)
-    parts = [] ; settings.plan.each{|part| parts << Object.const_get(part[0])} ; parts.uniq
-  end
-
-  def self.listify_for(klass)
-    list = YAML.load_file(klass.list_location)
-    klass.instance_exec(list) do |l| # instance_exec (vs. instance_eval) allows passing params
-      define_singleton_method('list'){ @list ||= l } # define_singleton_method adds the class method
-    end
-    klass.respond_to?(:list) ? true : false
-  end
-
+  def self.components_for(settings) ; parts = [] ; settings.plan.each{|part| parts << Object.const_get(part[0])} ; parts.uniq end
   def self.installed_part_classes ; SingleCharacterPart.descendants.concat(Word.descendants) end
   def self.installed_word_parts ; Word.descendants.map{|k|k.name} end
   def self.installed_summary
     count = 0
-    Password.installed_part_classes.each{|klass| Password.listify_for(klass) ; count += klass.count ; puts klass.to_s}
+    Password.installed_part_classes.each{|klass| klass.listify ; count += klass.count ; puts klass.to_s}
     puts "Total list members: #{count}"
   end
-
 
   # Instance methods
 
@@ -72,7 +45,8 @@ class Password
 
     # Add lists for required part classes only, check for non-contiguous lists
     Password.components_for(@settings).each do |klass|
-      Password.listify_for(klass)
+      # Password.listify_for(klass)
+      klass.listify
       raise ListIsNonContiguousError.new("Dictionary #{klass.name} is noncontiguous and requires at least one entry for each range member\n#{klass.to_s}") unless klass.contiguous?
     end
   end
