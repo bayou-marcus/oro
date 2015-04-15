@@ -3,16 +3,13 @@ require 'optparse'
 
 # One job, recieves String command line settings, parses them and returns OpenStruct structured settings.
 class SettingsParser
-
   def self.parse(argv) # Ie: an ARGV-style array of the clio
-
     settings = OpenStruct.new(:plan => [], :config => {}, :actions => {})
 
     clio_parser = OptionParser.new do |clio_parser_config|
-
       clio_parser_config.program_name = 'Auguste'
       clio_parser_config.release = 'Generation 2'
-      clio_parser_config.version = ['2', '0', 'alpha', '0']
+      clio_parser_config.version = %w(2 0 alpha 0)
       clio_parser_config.banner = 'Usage: auguste [settings]'
       clio_parser_config.separator ''
 
@@ -43,12 +40,12 @@ class SettingsParser
       clio_parser_config.separator 'Config settings'
       clio_parser_config.on('-dMANDATORY', '--dictionary=MANDATORY', 'The list used to source word parts') do |val|
         val[0] = val[0].capitalize
-    		settings.config[:dictionary] = val
+        settings.config[:dictionary] = val
       end
 
-    	clio_parser_config.on('-iMANDATORY', '--iterations=MANDATORY', Integer, 'The number of passwords to generate') do |val|
-    		settings.config[:iterations] = val
-    	end
+      clio_parser_config.on('-iMANDATORY', '--iterations=MANDATORY', Integer, 'The number of passwords to generate') do |val|
+        settings.config[:iterations] = val
+      end
 
       clio_parser_config.on('-c', '--[no-]capitalize', 'Capitalize every word part') do |val|
         settings.config[:capitalize] = val
@@ -66,12 +63,12 @@ class SettingsParser
         settings.config[:shuffle] = val
       end
 
-      clio_parser_config.on('-f', '--format=MANDATORY', ['json','yml','yaml','string'], 'Results format: string, json, yaml') do |val|
+      clio_parser_config.on('-f', '--format=MANDATORY', %w(json yml yaml string), 'Results format: string, json, yaml') do |val|
         settings.config[:format] = val
       end
 
       clio_parser_config.on('-t', '--separator[=OPTIONAL]', 'Separator characters') do |val|
-        settings.config[:separator] = eval("val=\"#{val}\"") # FIXME The horror, but how else to take \n as an option and retain it's control nature?  The eval should be removed.
+        settings.config[:separator] = eval("val=\"#{val}\"") # FIXME: The horror, but how else to take \n as an option and retain it's control nature?  The eval should be removed.
       end
 
       # Actions
@@ -101,24 +98,21 @@ class SettingsParser
         settings.actions[:verbose] = val
       end
 
-    	clio_parser_config.on('-h', '--help', 'Print this dialog') do |val|
+      clio_parser_config.on('-h', '--help', 'Print this dialog') do
         settings.actions[:help] = clio_parser_config.to_s
-    	end
+      end
 
-      clio_parser_config.on('--version', 'Show version') do |val|
+      clio_parser_config.on('--version', 'Show version') do
         settings.actions[:version] = clio_parser_config.ver
       end
       clio_parser_config.separator ''
       clio_parser_config.separator 'See dictionary source files for associated licence attributions.'
       clio_parser_config.separator ''
-
     end # end clio_parser
 
     argv = argv.is_a?(Array) ? argv : argv.split
     clio_parser.parse!(argv)
 
     settings
-
   end # end parse_to_structure
-
 end # end class

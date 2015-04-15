@@ -1,12 +1,18 @@
+# Auguste error classes
 class AugusteError < Exception
-  def initialize(msg) ; @msg = msg end
-  def message ; "Error: #{@msg}" end
+  def initialize(msg)
+    @msg = msg
+  end
+
+  def message
+    "Error: #{@msg}"
+  end
 end
 
-class PartInstantiationError < AugusteError ; end
+class PartInstantiationError < AugusteError; end
 
-class MatchlessLengthWordError < AugusteError ; end
+class MatchlessLengthWordError < AugusteError; end
 
-class NoMatchingListError < AugusteError ; end
+class NoMatchingListError < AugusteError; end
 
-class ListIsNonContiguousError < AugusteError ; end
+class ListIsNonContiguousError < AugusteError; end
