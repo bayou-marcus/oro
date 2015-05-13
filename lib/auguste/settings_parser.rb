@@ -14,7 +14,7 @@ class SettingsParser
       clio_parser_config.separator ''
 
       # Parts
-      clio_parser_config.separator 'Part settings'
+      clio_parser_config.separator 'Part settings (all lengths optional)'
       clio_parser_config.separator 'INSTALLED_PARTS_HELP'
 
       # Config

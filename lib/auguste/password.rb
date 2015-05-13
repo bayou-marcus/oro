@@ -42,7 +42,7 @@ class Password
   def self.installed_parts_help
     help = []
     installed_part_switches.each_pair do |s, l|
-      help << "    #{s}[n] #{l} list with optional length" # FIXME: There has to be a string format approach for making this match up.
+      help << "    #{s}[n] #{l} part" # FIXME: There has to be a string format approach for making this match up.
     end
     help.join("\n")
   end
