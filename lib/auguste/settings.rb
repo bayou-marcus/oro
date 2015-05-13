@@ -37,7 +37,7 @@ class Preferences
     File.open(FILE, 'w') { |f| f.write YAML.dump(settings) }
     @settings = settings
   end
-
+  
   def reset_defaults
     self.settings = Defaults.instance.settings
   end

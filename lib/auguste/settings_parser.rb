@@ -15,33 +15,11 @@ class SettingsParser
 
       # Parts
       clio_parser_config.separator 'Part settings'
-      clio_parser_config.on('-w[OPTIONAL]', '--word[=OPTIONAL]', Integer) do |val|
-        settings.plan.push(['Word', val])
-      end
-
-      clio_parser_config.on('-n[OPTIONAL]', '--number[=OPTIONAL]', Integer) do |val|
-        settings.plan.push(['Number', val])
-      end
-
-      clio_parser_config.on('-p[OPTIONAL]', '--punctuation[=OPTIONAL]', Integer) do |val|
-        settings.plan.push(['Punctuation', val])
-      end
-
-      clio_parser_config.on('-e[OPTIONAL]', '--emoticon[=OPTIONAL]', Integer) do |val|
-        settings.plan.push(['Emoticon', val])
-      end
-
-      clio_parser_config.on('-b[OPTIONAL]', '--braille[=OPTIONAL]', Integer) do |val|
-        settings.plan.push(['Braille', val])
-      end
+      clio_parser_config.separator 'INSTALLED_PARTS_HELP'
 
       # Config
       clio_parser_config.separator ''
       clio_parser_config.separator 'Config settings'
-      clio_parser_config.on('-dMANDATORY', '--dictionary=MANDATORY', 'The list used to source word parts') do |val|
-        val[0] = val[0].capitalize
-        settings.config[:dictionary] = val
-      end
 
       clio_parser_config.on('-iMANDATORY', '--iterations=MANDATORY', Integer, 'The number of passwords to generate') do |val|
         settings.config[:iterations] = val
@@ -67,7 +45,7 @@ class SettingsParser
         settings.config[:format] = val
       end
 
-      clio_parser_config.on('-t', '--separator[=OPTIONAL]', 'Separator characters') do |val|
+      clio_parser_config.on('-e', '--separator[=OPTIONAL]', 'Separator characters') do |val|
         settings.config[:separator] = eval("val=\"#{val}\"") # FIXME: The horror, but how else to take \n as an option and retain it's control nature?  The eval should be removed.
       end
 
@@ -105,6 +83,15 @@ class SettingsParser
       clio_parser_config.on('--version', 'Show version') do
         settings.actions[:version] = clio_parser_config.ver
       end
+
+      # Examples
+      clio_parser_config.separator ''
+      clio_parser_config.separator 'Examples'
+      clio_parser_config.separator '    auguste e9 p1 n3 -s --set'
+      clio_parser_config.separator '    auguste e10 p1 g10 --no-capitalize'
+      clio_parser_config.separator '    auguste n99 -i10'
+      clio_parser_config.separator '    auguste e10 n5 -fjson'
+
       clio_parser_config.separator ''
       clio_parser_config.separator 'See dictionary source files for associated licence attributions.'
       clio_parser_config.separator ''
@@ -114,5 +101,5 @@ class SettingsParser
     clio_parser.parse!(argv)
 
     settings
-  end # end parse_to_structure
+  end # end parse
 end # end class

@@ -22,7 +22,7 @@ time = Benchmark.measure do
     password.actions.each_pair do |action, val|
       case action
       when :lists
-        Password.installed_summary
+        puts Password.installed_parts_summary
         exit
       when :preferences
         puts Preferences.instance.clio
@@ -84,24 +84,11 @@ __END__
 TODO
 Issues
 - Fixme's
-- DONE Run rubocop on all files
+- Consider removing require_relative's in favor of approaches here: http://www.reddit.com/r/ruby/comments/3341zm/require_best_practices/
 - Set Rubocop to ignore line length
+- Decide what to do about the fact that some emoticons have a length of two and so fuck up your approach to determing a single character part.
+    - Note some (flag, etc.) characters are commented out.
 - Using -t'\r' only yields one password (?)
-- Since #get is the only differing method, all lists can be treated as Part instances.  These changes would be needed:
-  - DONE A memoized #single_character_list? method would be needed to determine if the list was single part style.
-  - DONE The #get method would check #single_character_list? and dispatch to #get_for_single_character_part or # get_for_word_part
-  - DONE Write an algorithm that generates single character switches for each part installed.
-  - Fix issues with clioize failing due to installed_word_parts missing.
-  - Fix issues with installed_word_parts failing, and is installed_part_classes used?
-  - Make crafty changes to SettingsParser allowing clio switches based on installed lists
-  With these in place:
-     1) words from different lists can be specified in the same password.
-     2) simply adding a new list would allow it to be used with no changes.
-     Example: -l6 -p2 -e4 -m3 -i7 --iterations=5 --shuffle --capitalize --l33t --separator='\t' --format=yaml
-  Approaches:
-    + argv after parsing has ["n1", "w9", "p2"] remaining, so another OptionsParser could handle those.  Collecting help across the two might be a challenge.
-    - The native "--plan x,y,z" requires a comma-separated list (as shown here) to work.  Ugly/unnatural.
-
 
 Ideas
 - The app should likely create a ~/.auguste_dictionaries directory and install the defaults if the folder is missing, and when --install-dictionaries is called (so upgrades work).  Sigh.

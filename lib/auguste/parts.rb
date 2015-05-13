@@ -11,7 +11,7 @@ class Part
     @list_location = location
   end
 
-  # instance_exec (vs. instance_eval) to pass params,  define_singleton_method to add the class method
+  # instance_exec (vs. instance_eval) to pass params, define_singleton_method to add the class method
   def self.listify
     list = YAML.load_file(@list_location)
     instance_exec(list) { |l| define_singleton_method('list') { @list ||= l } }

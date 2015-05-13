@@ -1,22 +1,21 @@
 --- !ruby/object:OpenStruct
 table:
   :plan:
-  - - Word
+  - - English
     - 5
   - - Punctuation
     - 1
-  - - Word
+  - - German
     - 4
   - - Number
     - 3
   :config:
-    :dictionary: English
     :iterations: 5
     :capitalize: true
     :capitalize_random: false
     :l33t: false
     :shuffle: false
     :format: 'string'
-    :separator: "\n" # Requires double, not single, quotes
+    :separator: "\n" # Requires double quotes
 
 modifiable: true

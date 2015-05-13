@@ -40,13 +40,15 @@ module SettingsAccessors
 end
 
 # Helper methods for turning settings back into clio
+# FIXME: This *helper* method requires knowledge of the Password class
 module ClioHelper
   def self.clioize(settings)
     clio = []
-    settings.plan.each { |part| Password.installed_word_parts.include?(part[0]) ? clio << "-w#{part[1]}" : clio << "-#{part[0][0].downcase}#{part[1]}" }
+    settings.plan.each { |part| Password.installed_part_switches.include?(part[0]) ? clio << "-w#{part[1]}" : clio << "-#{part[0][0].downcase}#{part[1]}" }
     settings.config.each { |part| clio << "--#{part[0].to_s.gsub('_', '-')}=#{part[1].to_s.gsub(/\n|\t|\r/, "\n" => '"\n"', "\t" => '"\t"', "\r" => '"\r"')}" }
     clio.join(' ')
   end
+
   def clio
     ClioHelper.clioize(settings)
   end
