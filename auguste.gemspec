@@ -12,5 +12,4 @@ Gem::Specification.new do |s|
   s.files       = FileList['**/**/*']
   s.homepage    = 'http://rubygems.org/gems/auguste'
   s.license     = 'The MIT License. http://opensource.org/licenses/mit-license.php' # http://choosealicense.com
-  s.add_development_dependency 'byebug', '~>8.2.1', '>8.2.2'
 end
