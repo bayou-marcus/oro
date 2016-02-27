@@ -8,8 +8,8 @@ class SettingsParser
 
     clio_parser = OptionParser.new do |clio_parser_config|
       clio_parser_config.program_name = 'Auguste'
-      clio_parser_config.release = 'Generation 2'
-      clio_parser_config.version = %w(2 0 alpha 0)
+      clio_parser_config.release = 'Command Line Version'
+      clio_parser_config.version = %w(1 0 beta 0)
       clio_parser_config.banner = 'Usage: auguste [settings]'
       clio_parser_config.separator ''
 
