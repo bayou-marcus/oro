@@ -3,7 +3,7 @@
 require 'benchmark'
 require 'yaml'
 require 'json'
-require 'byebug' # FIXME: rm
+# require 'byebug'
 require_relative 'auguste/settings'
 require_relative 'auguste/password'
 
@@ -91,8 +91,9 @@ Issues
 - Using -t'\r' only yields one password (?)
 
 Probable Road Map Ideas
-- #1 Replace yaml dictionary files parsed into Ruby arrays with each part implementing a Ruby interface.  Ie: adding a new dictionary would mean adding a new subclass which respects required class and instance methods.  This would resolve single character vs. work part concerns, and permit very easily adding secure/random password generation (which would help to silence any post-publish defsec encryption trolls), user-specified separators, etc.
-- #2 Support user-added part lists, and user-modifications to shipped part lists.  Reorganize and move parts directory to a /lib/defaults directory, along with defaults.yml (and possibly settings.rb).  Then install shipped dictionary parts if the home .auguste folder is missing, and when --install-dictionaries is called so upgrades from the past approach work.  This approach was briefly explored but abandoned as some code was moved from settings.rb to helpers.rb and things grew complex.
+- #1 Add tests.
+- #2 Replace yaml dictionary files parsed into Ruby arrays with each part implementing a Ruby interface.  Ie: adding a new dictionary would mean adding a new subclass which respects required class and instance methods.  This would resolve single character vs. work part concerns, and permit very easily adding secure/random password generation (which would help to silence any post-publish defsec encryption trolls), user-specified separators, etc.
+- #3 Support user-added part lists, and user-modifications to shipped part lists.  Reorganize and move parts directory to a /lib/defaults directory, along with defaults.yml (and possibly settings.rb).  Then install shipped dictionary parts if the home .auguste folder is missing, and when --install-dictionaries is called so upgrades from the past approach work.  This approach was briefly explored but abandoned as some code was moved from settings.rb to helpers.rb and things grew complex.
 
 General Ideas
 - The emoticon and braille parts need some thinking re: inclusion.
@@ -104,8 +105,5 @@ General Ideas
 
 Steps
 - Add documentation notes, using rdoc/Github conventions. https://help.github.com/articles/github-flavored-markdown/ https://github.com/github/linguist
-- Finish tests
-- Test on Windows
-- Build as gem
 - Add gem to RubyGems.org: https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/
 - Add gem to a Github account
