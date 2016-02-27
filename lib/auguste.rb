@@ -92,7 +92,7 @@ Issues
 
 Probable Road Map Ideas
 - #1 Add tests.
-- #2 Replace yaml dictionary files parsed into Ruby arrays with each part implementing a Ruby interface.  Ie: adding a new dictionary would mean adding a new subclass which respects required class and instance methods.  This would resolve single character vs. work part concerns, and permit very easily adding secure/random password generation (which would help to silence any post-publish defsec encryption trolls), user-specified separators, implementing the Unix /usr/share/dict/words file, etc.
+- #2 Replace yaml dictionary files parsed into Ruby arrays with each part implementing a Ruby interface.  Ie: adding a new dictionary would mean adding a new subclass which respects required class and instance methods.  This would resolve single character vs. work part concerns, and permit very easily adding secure/random password generation (which would help to silence any post-publish defsec encryption trolls), user-specified separators, implementing the Unix /usr/share/dict/words file, word lists from non-structured files (ie: ASCII documents), etc.
 - #3 Support user-added part lists, and user-modifications to shipped part lists.  Reorganize and move parts directory to a /lib/defaults directory, along with defaults.yml (and possibly settings.rb).  Then install shipped dictionary parts if the home .auguste folder is missing, and when --install-dictionaries is called so upgrades from the past approach work.  This approach was briefly explored but abandoned as some code was moved from settings.rb to helpers.rb and things grew complex.
 
 General Ideas
