@@ -90,11 +90,13 @@ Issues
     - Note some (flag, etc.) characters are commented out.
 - Using -t'\r' only yields one password (?)
 
-Ideas
-- The app should likely create a ~/.auguste_dictionaries directory and install the defaults if the folder is missing, and when --install-dictionaries is called (so upgrades work).  Sigh.
-- The emoticon and braille parts need some thinking re: inclusion
-- Review and possibly integrate this (word list limitations): https://github.com/bdmac/strong_password
-- Consider creating a SecureRandom part option to silence the post-publish defsec encryption trolls.
+Probable Road Map Ideas
+- #1 Replace yaml dictionary files parsed into Ruby arrays with each part implementing a Ruby interface.  Ie: adding a new dictionary would mean adding a new subclass which respects required class and instance methods.  This would resolve single character vs. work part concerns, and permit very easily adding secure/random password generation (which would help to silence any post-publish defsec encryption trolls), user-specified separators, etc.
+- #2 Support user-added part lists, and user-modifications to shipped part lists.  Reorganize and move parts directory to a /lib/defaults directory, along with defaults.yml (and possibly settings.rb).  Then install shipped dictionary parts if the home .auguste folder is missing, and when --install-dictionaries is called so upgrades from the past approach work.  This approach was briefly explored but abandoned as some code was moved from settings.rb to helpers.rb and things grew complex.
+
+General Ideas
+- The emoticon and braille parts need some thinking re: inclusion.
+- Possibly integrate this: https://github.com/bdmac/strong_password (word lists are possible or known [?] limitations).
 - Would it not make sense that an instance of Password had the 8 settings.config and 1 settings.plan options as instance variables?  Ie: The Object Way.
   And, possibly that defaults and preferences either mixed this approach in or were themselves instances or subclasses of Password.  (Very interesting.)
 - Hints about more alphabets can be found here:
