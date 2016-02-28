@@ -6,7 +6,7 @@ A flexible command line tool for generating memorable passwords.
 
 h2. Usage
 
-pre..
+```
 Usage: auguste [settings]
 
 Part settings (all lengths optional)
@@ -45,6 +45,7 @@ Examples
     auguste e10 n5 -fjson
 
 See dictionary source files for associated license attributions.
+```
 
 h2. License
 
