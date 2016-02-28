@@ -4,16 +4,48 @@ h1. Auguste
 
 A flexible command line tool for generating memorable passwords.
 
-h2. Custom Lists
+h2. Usage
 
-You can add your own lists, formatted as YAML arrays, in ~/.auguste/lists/<SuperclassDirectory>/<your-last>.yml.
+pre..
+Usage: auguste [settings]
 
-Here are some words to quote so Ruby doesn't have issues processing them: 'false', 'no', 'nil', 'null', 'off', 'on', 'true', 'yes'.  Some punctuation characters may need quoting as well (ex: '\').
+Part settings (all lengths optional)
+    p[n] Punctuation part
+    n[n] Number part
+    l[n] Linnaeus part
+    a[n] Latin part
+    g[n] German part
+    e[n] English part
+    m[n] Emoticon part
+    b[n] Braille part
+
+Config settings
+    -i, --iterations=MANDATORY       The number of passwords to generate
+    -c, --[no-]capitalize            Capitalize every word part
+    -r, --[no-]capitalize-random     Randomly capitalize one letter in every word part
+    -l, --[no-]l33t                  Make one l33t-style replacement per word part
+    -s, --[no-]shuffle               Randomize map parts
+    -f, --format=MANDATORY           Results format: string, json, yaml
+    -e, --separator[=OPTIONAL]       Separator characters
+
+Action settings
+        --lists                      Show all available lists
+        --prefs, --preferences       Show your current preferences
+        --defaults                   Show system defaults
+        --set                        Set passed settings as your preferences
+        --reset                      Reset your preferences to system defaults
+    -v, --verbose                    Provide verbose feedback, dictionary metadata, and statistics when run
+    -h, --help                       Print this dialog
+        --version                    Show version
+
+Examples
+    auguste e9 p1 n3 -s --set
+    auguste e10 p1 g10 --no-capitalize
+    auguste n99 -i10
+    auguste e10 n5 -fjson
+
+See dictionary source files for associated license attributions.
 
 h2. License
 
 http://opensource.org/licenses/mit-license.php
-
-
-
-Markdown: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
