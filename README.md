@@ -2,7 +2,7 @@
 
 _**"The enemy knows the system"** ([Claude Shannon](http://en.wikipedia.org/wiki/Claude_Shannon) / [Auguste Kerckhoffs](http://en.wikipedia.org/wiki/Auguste_Kerckhoffs))_
 
-A flexible, command-line utility which generates memorable passwords for keeping your gold safe.
+A flexible, command-line utility which generates memorable passwords.
 
 ## Usage
 
