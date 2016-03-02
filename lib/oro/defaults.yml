@@ -2,11 +2,9 @@
 table:
   :plan:
   - - English
-    - 5
+    - 8
   - - Punctuation
     - 1
-  - - German
-    - 4
   - - Number
     - 3
   :config:

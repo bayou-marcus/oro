@@ -4,15 +4,15 @@ require 'benchmark'
 require 'yaml'
 require 'json'
 # require 'byebug'
-require_relative 'auguste/settings'
-require_relative 'auguste/password'
+require_relative 'oro/settings'
+require_relative 'oro/password'
 
 # LET'S make passwords
 
 time = Benchmark.measure do
   begin
 
-    # Create ~/.auguste_preferences if missing
+    # Create ~/.oro preferences file if missing
     Preferences.instance
 
     # Set settings, parse clio

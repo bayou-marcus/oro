@@ -44,7 +44,7 @@ end
 module ClioHelper
   def self.clioize(settings)
     clio = []
-    settings.plan.each { |part| Password.installed_part_switches.include?(part[0]) ? clio << "-w#{part[1]}" : clio << "-#{part[0][0].downcase}#{part[1]}" }
+    settings.plan.each { |part| Password.installed_part_switches.include?(part[0]) ? clio << "w#{part[1]}" : clio << "#{part[0][0].downcase}#{part[1]}" }
     settings.config.each { |part| clio << "--#{part[0].to_s.gsub('_', '-')}=#{part[1].to_s.gsub(/\n|\t|\r/, "\n" => '"\n"', "\t" => '"\t"', "\r" => '"\r"')}" }
     clio.join(' ')
   end

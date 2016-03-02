@@ -1,12 +1,12 @@
-# Auguste
+# Oro
 
 _**"The enemy knows the system"** ([Claude Shannon](http://en.wikipedia.org/wiki/Claude_Shannon) / [Auguste Kerckhoffs](http://en.wikipedia.org/wiki/Auguste_Kerckhoffs))_
 
-A flexible command line tool for generating memorable passwords.
+A flexible, command-line utility which generates memorable passwords for keeping your gold safe.
 
 ## Usage
 
-    Usage: auguste [settings]
+    Usage: oro [settings]
 
     Part settings (all lengths optional)
         p[n] Punctuation part
@@ -38,10 +38,10 @@ A flexible command line tool for generating memorable passwords.
             --version                    Show version
 
     Examples
-        auguste e9 p1 n3 -s --set
-        auguste e10 p1 g10 --no-capitalize
-        auguste n99 -i10
-        auguste e10 n5 -fjson
+        oro e9 p1 n3 -s --set
+        oro n4 -e"-" -i4
+        oro n99 -i10
+        oro e10 n5 -fjson
 
     See dictionary source files for associated license attributions.
 

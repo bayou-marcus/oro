@@ -103,7 +103,7 @@ class Password
     current_password = []
 
     @settings.plan.each do |plan_part|
-      part_klass = self.class.const_get(plan_part[0]) # The part descriptor from auguste settings
+      part_klass = self.class.const_get(plan_part[0]) # The part descriptor from oro settings
       plan_part[1] = part_klass.middle if plan_part[1].nil?
       current_password << part_klass.get(plan_part[1], @settings.config) # Passing config, Parts don't currently rely on the Preferences singleton
     end

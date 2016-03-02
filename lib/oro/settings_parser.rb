@@ -7,10 +7,10 @@ class SettingsParser
     settings = OpenStruct.new(:plan => [], :config => {}, :actions => {})
 
     clio_parser = OptionParser.new do |clio_parser_config|
-      clio_parser_config.program_name = 'Auguste'
+      clio_parser_config.program_name = 'Oro'
       clio_parser_config.release = 'Command Line Version'
       clio_parser_config.version = %w(1 0 0)
-      clio_parser_config.banner = 'Usage: auguste [settings]'
+      clio_parser_config.banner = 'Usage: oro [settings]'
       clio_parser_config.separator ''
 
       # Parts
@@ -87,10 +87,10 @@ class SettingsParser
       # Examples
       clio_parser_config.separator ''
       clio_parser_config.separator 'Examples'
-      clio_parser_config.separator '    auguste e9 p1 n3 -s --set'
-      clio_parser_config.separator '    auguste e10 p1 g10 --no-capitalize'
-      clio_parser_config.separator '    auguste n99 -i10'
-      clio_parser_config.separator '    auguste e10 n5 -fjson'
+      clio_parser_config.separator '    oro e9 p1 n3 -s --set'
+      clio_parser_config.separator '    oro n4 -e"-" -i4'
+      clio_parser_config.separator '    oro n99 -i10'
+      clio_parser_config.separator '    oro e10 n5 -fjson'
 
       clio_parser_config.separator ''
       clio_parser_config.separator 'See dictionary source files for associated licence attributions.'

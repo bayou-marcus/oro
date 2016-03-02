@@ -1,15 +1,15 @@
 require 'rake' # Provide FileList class
 
 Gem::Specification.new do |s|
-  s.name        = 'auguste'
+  s.name        = 'oro'
   s.version     = '1.0.0'
   s.date        = '2016-02-27'
-  s.summary     = 'The enemy knows the system.'
-  s.description = "Generate memorable passwords on your command line."
+  s.summary     = 'A flexible, command-line utility which generates memorable passwords for keeping your gold safe.'
+  s.description = 'The enemy knows the system -- Claude Shannon / Auguste Kerckhoffs'
   s.authors     = ['Joel Wagener']
   s.email       = 'bayou.marcus@gmail.com'
-  s.executables = ['auguste']
+  s.executables = ['oro']
   s.files       = FileList['**/**/*']
-  s.homepage    = 'http://rubygems.org/gems/auguste'
+  s.homepage    = 'http://rubygems.org/gems/oro'
   s.license     = 'The MIT License. http://opensource.org/licenses/mit-license.php' # http://choosealicense.com
 end

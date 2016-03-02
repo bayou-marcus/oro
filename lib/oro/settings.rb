@@ -21,7 +21,7 @@ end
 # Singleton class representing preferred settings
 class Preferences
   include ClioHelper, SettingsAccessors, SettingsInspector, Singleton
-  FILE = File.join(Dir.home, '.auguste')
+  FILE = File.join(Dir.home, '.oro')
 
   def initialize
     reset_defaults unless FileTest.readable?(FILE) # Create preference file if missing
@@ -37,7 +37,7 @@ class Preferences
     File.open(FILE, 'w') { |f| f.write YAML.dump(settings) }
     @settings = settings
   end
-  
+
   def reset_defaults
     self.settings = Defaults.instance.settings
   end
