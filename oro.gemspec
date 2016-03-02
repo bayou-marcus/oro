@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = 'bayou.marcus@gmail.com'
   s.executables = ['oro']
   s.files       = FileList['**/**/*']
-  s.homepage    = 'http://rubygems.org/gems/oro'
+  s.homepage    = 'https://github.com/bayou-marcus/oro'
   s.license     = 'The MIT License.' # http://choosealicense.com
   s.required_ruby_version = '~> 2.2'
 end
