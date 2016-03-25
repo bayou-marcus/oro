@@ -64,12 +64,14 @@ class Part
   end
 
   def self.get(size, config = {})
-    single_character_list? ? get_for_single_character_part(size) : get_for_word_part(size, config)
+    single_character_list? ? get_for_single_character_part(size, config) : get_for_word_part(size, config)
   end
 
-  def self.get_for_single_character_part(size)
+  def self.get_for_single_character_part(size, config)
     result = []
     size.times { result << get_one }
+    result.first.capitalize! if config[:capitalize]
+    result[rand(result.length)].upcase! if config[:capitalize_random]
     result.join
   end
 
