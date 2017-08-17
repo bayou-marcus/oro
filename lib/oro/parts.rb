@@ -1,4 +1,4 @@
-# Class representing a password plan part, which map to installed psrt lists
+# Class representing a password plan part, which map to installed part lists
 class Part
   LEET = { 'a' => ['@'], 'b' => ['|3'], 'd' => ['|)'], 'e' => ['3'], 'f' => ['ph'], 'i' => ['|'], 'k' => ['|<'],
            'l' => ['|_'], 'o' => ['0'], 'p' => ['|*'], 's' => ['$', '5'], 'w' => ["'//"] }

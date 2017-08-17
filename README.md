@@ -17,6 +17,7 @@ A flexible, command-line utility which generates memorable passwords.
         e[n] English part
         m[n] Emoticon part
         b[n] Braille part
+        h[n] Alphabet part
 
     Config settings
         -i, --iterations=MANDATORY       The number of passwords to generate
@@ -43,7 +44,7 @@ A flexible, command-line utility which generates memorable passwords.
         oro n99 -i10
         oro e10 n5 -fjson
 
-    See dictionary source files for associated license attributions.
+    See dictionary source files for associated licence attributions.
 
 ## License
 
