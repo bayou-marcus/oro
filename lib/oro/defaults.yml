@@ -1,19 +1,17 @@
 --- !ruby/object:OpenStruct
-table:
-  :plan:
-  - - English
-    - 8
-  - - Punctuation
-    - 1
-  - - Number
-    - 3
-  :config:
-    :iterations: 5
-    :capitalize: true
-    :capitalize_random: false
-    :l33t: false
-    :shuffle: false
-    :format: 'string'
-    :separator: "\n" # Requires double quotes
-
+:plan:
+- - English
+  - 8
+- - Punctuation
+  - 1
+- - Number
+  - 3
+:config:
+  :iterations: 5
+  :capitalize: true
+  :capitalize_random: false
+  :l33t: false
+  :shuffle: false
+  :format: 'string'
+  :separator: "\n" # Requires double quotes
 modifiable: true
