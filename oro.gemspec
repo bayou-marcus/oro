@@ -11,6 +11,6 @@ Gem::Specification.new do |s|
   s.executables = ['oro']
   s.files       = FileList['**/**/*']
   s.homepage    = 'https://github.com/bayou-marcus/oro'
-  s.license     = 'The MIT License.' # http://choosealicense.com
+  s.license     = 'MIT' # http://choosealicense.com ; https://spdx.org/licenses/MIT.html
   s.required_ruby_version = '~> 2.6'
 end
