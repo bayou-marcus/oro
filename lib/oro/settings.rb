@@ -14,7 +14,7 @@ class Defaults
   end
 
   def settings
-    @settings ||= YAML.load(File.read(FILE))
+    @settings ||= YAML.safe_load(File.read(FILE), permitted_classes: [OpenStruct, Symbol])
   end
 end
 
@@ -29,7 +29,7 @@ class Preferences
   end
 
   def settings
-    @settings ||= YAML.load(File.read(FILE))
+    @settings ||= YAML.safe_load(File.read(FILE), permitted_classes: [OpenStruct, Symbol])
   end
 
   def settings=(settings)
