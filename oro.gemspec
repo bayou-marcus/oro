@@ -2,7 +2,7 @@ require 'rake' # Provide FileList class
 
 Gem::Specification.new do |s|
   s.name        = 'oro'
-  s.version     = '1.0.6'
+  s.version     = '1.0.7'
   s.date        = '2021-06-09'
   s.summary     = 'Oro for passwords...'
   s.description = 'A flexible, command-line utility which generates memorable passwords. The enemy knows the system -- Claude Shannon / Auguste Kerckhoffs'
