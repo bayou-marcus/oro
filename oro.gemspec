@@ -2,8 +2,8 @@ require 'rake' # Provide FileList class
 
 Gem::Specification.new do |s|
   s.name        = 'oro'
-  s.version     = '1.0.3'
-  s.date        = '2021-05-11'
+  s.version     = '1.0.4'
+  s.date        = '2021-06-09'
   s.summary     = 'Oro for passwords...'
   s.description = 'A flexible, command-line utility which generates memorable passwords. The enemy knows the system -- Claude Shannon / Auguste Kerckhoffs'
   s.authors     = ['Bayou Marcus']
