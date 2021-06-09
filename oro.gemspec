@@ -12,5 +12,7 @@ Gem::Specification.new do |s|
   s.files       = FileList['**/**/*']
   s.homepage    = 'https://github.com/bayou-marcus/oro'
   s.license     = 'MIT' # http://choosealicense.com ; https://spdx.org/licenses/MIT.html
-  s.required_ruby_version = '~> 2.6'
+  s.required_ruby_version = '>= 2.6.5'
+  s.add_dependency 'ostruct', '>= 0.3.3'
+  s.add_dependency 'psych', '>= 4.0.0'
 end
